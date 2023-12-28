@@ -1,0 +1,69 @@
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store';
+import './style.css'
+import axios from 'axios';
+import GAuth from 'vue3-google-oauth2';
+
+// 認証が必要なviewはaxでリクエスト
+const ax = axios.create()
+export default ax
+
+async function verifyAccessToken(token){
+    try {
+        await axios.post("http://127.0.0.1:8000/auth/token/verify/", { token: token });
+        return true; // トークンが有効な場合
+    } catch (error) {
+        return false; // トークンが無効な場合
+    }
+}
+async function TokenRefresh(refreshToken){
+    try {
+        const response = await axios.post("http://127.0.0.1:8000/auth/token/refresh/", { refresh: refreshToken });
+        store.dispatch("setAccessToken", response.data.access);
+        store.dispatch("setRefreshToken", response.data.refresh);
+        return response.data.access; 
+    } catch (error) {
+        return null
+    }
+}
+
+ax.interceptors.request.use(
+    async config => {
+        const accessToken = store.getters.getAccessToken;
+        const refreshToken = store.getters.getRefreshToken;
+
+        if (await verifyAccessToken(accessToken)) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        } 
+        else {
+            const newAccessToken = await TokenRefresh(refreshToken);
+            if (newAccessToken) {
+                config.headers.Authorization = `Bearer ${newAccessToken}`;
+            } 
+            else {
+                alert("ログインしてください")
+                store.dispatch("clearAccessToken")
+                store.dispatch("clearRefreshToken")
+                store.dispatch("clearLoginUser")
+                router.push("/login");
+                return Promise.reject(new Error("Failed to refresh token"));
+
+            }
+        }
+
+        return config;
+    },
+    error => Promise.reject(error)
+);
+
+
+const gAuthOption = {
+    clientId: '199402364524-nlu3b842ohj1as141r9gnjqm8mptftiv.apps.googleusercontent.com',
+    scope: 'email profile openid',
+    prompt: 'consent',
+    // response_type: 'code'
+}
+
+createApp(App).use(GAuth, gAuthOption).use(router).use(store).mount('#app')
