@@ -6,7 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mdeditor/', include('mdeditor.urls')),
     path('auth/', include('pevsearch.authentication.urls')),
     path('api/', include("pevsearch.urls")),
 
