@@ -7,7 +7,7 @@
                 <PostDetail v-for="tagpost in tagposts" :post="tagpost" :key="tagpost" >
                 </PostDetail>
             </ul>
-            <PaginationComponent v-if="allpost_count !== 0" :pagename="route.path" :currentPage="currentPage" :totalpage="totalpage" @to_page="(page) => tagpostSearch(page)" @to_previous="tagpostSearch(currentPage - 1)" @to_next="tagpostSearch(currentPage + 1)"></PaginationComponent>
+            <PaginationComponent v-if="allpost_count !== 0" :pagename="route.path" :currentPage="currentPage" :totalpage="totalpage" @to_page="(page) => tagpostSearch(tagid, page, true)" @to_previous="tagpostSearch(tagid, currentPage - 1, true)" @to_next="tagpostSearch(tagid, currentPage + 1, true)"></PaginationComponent>
         </div>
     </div>
 </template>
@@ -33,26 +33,35 @@
     const currentPage = ref(null)
     const totalpage = ref(null)
     const allpost_count = ref(null)
+    const isPaginationClicked = ref(false); 
 
 
     onMounted(() => {
-        tagpostSearch(tagid)
+        tagpostSearch(tagid.value)
     })
 
     watch(route, (newRoute) => {
         // urlが変わったら、そのタグの投稿情報に切り替える
-        tagname.value = newRoute.params.tagname;
-        tagid.value = newRoute.params.tagid;
-        tagpostSearch(tagid);
+        if (!isPaginationClicked.value) {
+            // ページネーションのクリックによる変更でない場合のみ反応
+            tagname.value = newRoute.params.tagname;
+            tagid.value = newRoute.params.tagid;
+            tagpostSearch(tagid.value)
+        }
+        isPaginationClicked.value = false
     });
 
-    const tagpostSearch = async (tagid, page) => {
+    // ページネーションクリック時にwatchが動いてしまうので、ページネーションをクリックしたかのフラグ入れる
+    const tagpostSearch = async (tagid, page, isPagination=false) => {
         currentPage.value = page
+        isPaginationClicked.value = isPagination
+        console.log(isPaginationClicked.value)
         params.value = {
             page: page,
             page_size: page_size,
         }
-        await axios.get(`http://127.0.0.1:8000/api/tags/${tagid.value}/posts`, {params: params.value})
+        console.log(tagid.value)
+        await axios.get(`http://127.0.0.1:8000/api/tags/${tagid}/posts/`, {params: params.value})
         .then((response) => {
             if(currentPage.value === undefined) currentPage.value = 1
             tagposts.value = response.data.results
