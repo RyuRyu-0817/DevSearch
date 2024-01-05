@@ -1,13 +1,10 @@
 from datetime import datetime
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
-from .models import Post, Tag
+from .models import Post, Tag, Like
 from pprint import pprint
 from bs4 import BeautifulSoup
 
-
-# def site_tag_register():
-#     zenn_tags = ["Python", "AWS", "React", "TypeScript", Jaba]
 
 def get_zenn_posts():
     """
@@ -29,7 +26,7 @@ def get_zenn_posts():
     page = 1
     article_list = []
 
-    while True:
+    while page <= 10:
         params = {
             "order": "latest", #最新記事で
             "page": page,
@@ -74,8 +71,6 @@ def get_zenn_posts():
                 
                 article_list.append(article_info)
             
-            if page == 2:
-                break
             page += 1
         else:
             print(f"ページの取得中にエラーが発生しました: {response.status_code}")
@@ -98,7 +93,7 @@ def get_qiita_posts():
 
     page = 1
     article_list = []
-    while True:
+    while page <= 10:
         # クエリパラメーターを設定
         params = {
             'query': "tag:個人開発,ポートフォリオ", 
@@ -125,10 +120,6 @@ def get_qiita_posts():
             }
 
             article_list.append(article_info)
-
-        if page == 2:
-            break
-
         page += 1
 
 
@@ -174,7 +165,8 @@ def delete():
     posts.delete()
     tags = Tag.objects.all()
     tags.delete()
-   
+    likes = Like.objects.all()
+    likes.delete()
 
 # new=>
 def start():
@@ -187,6 +179,6 @@ def start():
    # 最初の実行をスケジューラに追加
    scheduler.add_job(update, 'date')  # 'date'トリガーは一度だけ実行
    
-#    scheduler.add_job(update, 'interval', seconds=600) # schedule
+   scheduler.add_job(update, 'interval', hours=1) # schedule
 #    scheduler.add_job(delete, 'interval', seconds=5) # schedule
    scheduler.start()
