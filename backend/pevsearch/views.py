@@ -66,22 +66,6 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Post.objects.all().order_by("-site_Like")
     serializer_class = PostSerializer
-    # pagination_class = PostNumberPagination
-
-    
-    # @action(detail=True, methods=["get"])
-    # def comments(self, request, pk=None):
-    #     post = self.get_object()
-    #     queryset = Like.objects.filter(post=post)
-
-    #     # pagination = CustomDefaultPagination()
-    #     page = pagination.paginate_queryset(queryset, request)
-    #     if page is not None:
-    #         serializer = CommentSerializer(page, many=True)
-    #         return pagination.get_paginated_response(serializer.data)
-
-    #     serializer = CommentSerializer(queryset, many=True)
-    #     return Response(serializer.data)
     
     @action(detail=True, methods=["get"])
     def likes(self, request, pk=None):
@@ -109,26 +93,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
                 
             queryset = queryset.filter(query)
             
-        return queryset
-    
-    
-
-# class CommentViewSet(viewsets.ModelViewSet):
-#     queryset = Comment.objects.all()
-#     serializer_class = CommentSerializer
-#     pagination_class = CustomDefaultPagination
-
-    # def create(self, request, pk, *args, **kwargs):
-    #     validation_data = {
-    #         "content": request.data["content"],
-    #         "user_id": request.user.id,
-    #         "post": pk
-    #     }
-    #     serializer = self.get_serializer(data=validation_data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=201)
-    #     return Response(serializer.errors, status=400) 
+        return queryset 
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
