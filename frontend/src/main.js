@@ -4,7 +4,6 @@ import router from './router'
 import store from './store';
 import './style.css'
 import axios from 'axios';
-import GAuth from 'vue3-google-oauth2';
 
 // 認証が必要なviewはaxでリクエスト
 const ax = axios.create()
@@ -59,11 +58,5 @@ ax.interceptors.request.use(
 );
 
 
-const gAuthOption = {
-    clientId: '199402364524-nlu3b842ohj1as141r9gnjqm8mptftiv.apps.googleusercontent.com',
-    scope: 'email profile openid',
-    prompt: 'consent',
-    // response_type: 'code'
-}
 
-createApp(App).use(GAuth, gAuthOption).use(router).use(store).mount('#app')
+createApp(App).use(router).use(store).mount('#app')
