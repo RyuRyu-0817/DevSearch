@@ -10,7 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
     
 
 class TagSerializer(serializers.ModelSerializer):
-    # post_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Tag
@@ -73,9 +72,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super().get_token(user)
 
-        # Add custom claims
         token['name'] = user.username
-        # ...
 
         return token
 
