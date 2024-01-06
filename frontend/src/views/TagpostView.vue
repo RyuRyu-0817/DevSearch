@@ -55,7 +55,6 @@
     const tagpostSearch = async (tagid, page, isPagination=false) => {
         currentPage.value = page
         isPaginationClicked.value = isPagination
-        console.log(isPaginationClicked.value)
         params.value = {
             page: page,
             page_size: page_size,

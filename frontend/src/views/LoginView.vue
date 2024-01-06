@@ -56,11 +56,11 @@
     import { useRouter } from 'vue-router';
     import axios from 'axios';
     import store from '../store';
-    import { useGoogleAuth } from 'vue3-google-oauth2';
+    // import { useGoogleAuth } from 'vue3-google-oauth2';
 
 
     // const Vue3GoogleOauth = inject("Vue3GoogleOauth")
-    const { gAuth } = useGoogleAuth();
+    // const { gAuth } = useGoogleAuth();
 
 
     const router = useRouter()
@@ -102,8 +102,4 @@
         })
     }
 
-    const google_login = async () => {
-        const googleuser =  await gAuth.signIn();
-        console.log(googleuser)
-    }
 </script>

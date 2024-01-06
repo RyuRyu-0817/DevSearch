@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <HeaderComponent></HeaderComponent>
-    <p>{{ store.state.login_user }}</p>
     <div class="mx-auto max-w-screen-2xl px-4 lg:px-28 mt-14">
       <div class="flex">
         <!-- タグ一覧 -->
@@ -40,8 +39,7 @@
   import { ref, onMounted } from "vue"
   import axios from "axios";
   import { useRouter, useRoute } from 'vue-router';
-  import store from "../store"
-
+  
   // apiコールの取得件数
   const page_size = 30
 

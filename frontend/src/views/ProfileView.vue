@@ -6,7 +6,7 @@
                 <div class="text-center">
                     <img src="../assets/logo.png" alt="" class="w-32 h-32 rounded-full inline-block m-auto">
                     <p class="text-lg font-semibold text-center mb-4">@{{ login_user.username }}</p>
-                    <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">プロフィールを編集</button>
+                    <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">画像を選択</button>
                 </div>
             </div>
             <div class="bg-white shadow rounded-lg p-4 mb-6">
