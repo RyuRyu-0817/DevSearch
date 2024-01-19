@@ -29,6 +29,8 @@
     const likedPosts = ref([])
     const allpost_count = ref(null)
     const totalpage = ref(null)
+    const apiUrl = process.env.VUE_APP_API_DOMAIN;
+
 
     onMounted(() => {
         likePost_search()
@@ -41,7 +43,7 @@
             page: page,
             page_size: page_size
         }
-        await axios.get(`http://127.0.0.1:8000/api/users/${login_user.pk}/like/`, {params: params.value})
+        await axios.get(`${apiUrl}/api/users/${login_user.pk}/like/`, {params: params.value})
         .then((response) => {
             if(currentPage.value === undefined) currentPage.value = 1
             likedPosts.value = response.data.results

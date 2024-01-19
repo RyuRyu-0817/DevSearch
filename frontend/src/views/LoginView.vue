@@ -66,6 +66,8 @@
     const router = useRouter()
     const authfield = ref("")
     const errormessage = ref("")
+    const apiUrl = process.env.VUE_APP_API_DOMAIN;
+
 
 
 
@@ -89,7 +91,7 @@
     })
 
     const login = async () => {
-        await axios.post("http://127.0.0.1:8000/auth/login/", userData.value)
+        await axios.post(`${apiUrl}/auth/login/`, userData.value)
         .then((response) => {
             store.dispatch('setAccessToken', response.data.access);
             store.dispatch('setRefreshToken', response.data.refresh);

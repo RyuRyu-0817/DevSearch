@@ -22,6 +22,8 @@
     const tags = ref([])
     const filtered_tags = ref([])
     const placeholder = "タグ名で検索できます"
+    const apiUrl = process.env.VUE_APP_API_DOMAIN;
+
 
     onMounted(() => {
         tagSearch()
@@ -39,7 +41,7 @@
     })
 
     const tagSearch = async () => {
-       await  axios.get("http://127.0.0.1:8000/api/tags/")
+       await  axios.get(`${apiUrl}/api/tags/`)
         .then((response) => {
             tags.value = response.data
             filtered_tags.value = tags.value            

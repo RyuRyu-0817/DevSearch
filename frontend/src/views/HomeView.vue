@@ -51,6 +51,7 @@
   const allpost_count = ref(null)
   const totalpage = ref(null)
   const currentPage = ref(null)
+  const apiUrl = process.env.VUE_APP_API_DOMAIN;
 
   onMounted(() => {
     likesort_Search()
@@ -59,7 +60,7 @@
 
 
   const popularTag_search = async () => {
-    await axios.get("http://127.0.0.1:8000/api/tags/")
+    await axios.get(`${apiUrl}/api/tags/`)
     .then((response) => {
       // 上位50タグに絞って表示
         popular_tags.value = response.data.slice(0, 50)

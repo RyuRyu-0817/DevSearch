@@ -33,7 +33,9 @@
     const currentPage = ref(null)
     const totalpage = ref(null)
     const allpost_count = ref(null)
-    const isPaginationClicked = ref(false); 
+    const isPaginationClicked = ref(false);
+    const apiUrl = process.env.VUE_APP_API_DOMAIN;
+
 
 
     onMounted(() => {
@@ -60,7 +62,7 @@
             page_size: page_size,
         }
         console.log(tagid.value)
-        await axios.get(`http://127.0.0.1:8000/api/tags/${tagid}/posts/`, {params: params.value})
+        await axios.get(`${apiUrl}/api/tags/${tagid}/posts/`, {params: params.value})
         .then((response) => {
             if(currentPage.value === undefined) currentPage.value = 1
             tagposts.value = response.data.results

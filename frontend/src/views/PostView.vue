@@ -45,6 +45,8 @@
     const currentPage = ref(null)
     const totalpage = ref(null)
     const allpost_count = ref(null)
+    const apiUrl = process.env.VUE_APP_API_DOMAIN;
+
 
     onMounted(() => {
         postSearch()
@@ -60,7 +62,7 @@
             page_size: page_size,
         }
         
-        await axios.get("http://127.0.0.1:8000/api/posts/", {params: params.value})
+        await axios.get(`${apiUrl}/api/posts/`, {params: params.value})
         .then((response) => {
             if(currentPage.value === undefined) currentPage.value = 1
             posts.value = response.data.results

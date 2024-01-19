@@ -29,6 +29,7 @@
     const bookmarkedPosts = ref([])
     const allpost_count = ref(null)
     const totalpage = ref(null)
+    const apiUrl = process.env.VUE_APP_API_DOMAIN;
 
     onMounted(() => {
         bookmarkPost_search()
@@ -41,7 +42,7 @@
             page: page,
             page_size: page_size
         }
-        axios.get(`http://127.0.0.1:8000/api/users/${login_user.pk}/bookmark/`, {params: params.value})
+        axios.get(`${apiUrl}/api/users/${login_user.pk}/bookmark/`, {params: params.value})
         .then((response) => {
             if(currentPage.value === undefined) currentPage.value = 1
             bookmarkedPosts.value = response.data.results

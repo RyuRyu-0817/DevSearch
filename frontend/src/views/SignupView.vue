@@ -80,10 +80,12 @@
         password2: "",
 
     })
+    const apiUrl = process.env.VUE_APP_API_DOMAIN;
+
 
     // 新規登録のロジック
     const signUp = async () => {
-        await axios.post("http://127.0.0.1:8000/auth/signup/", userData.value)
+        await axios.post(`${apiUrl}/auth/signup/`, userData.value)
         .then((response) => {
             messages.value = "確認メールを送ったで"
             console.log(response)
