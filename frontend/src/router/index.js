@@ -8,37 +8,58 @@ import TagpostView from '../views/TagpostView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import LikeView from '../views/LikeView.vue'
 import BookmarkView from '../views/BookmarkView.vue'
-import store from '../store'; // Vuexストアをインポート
 
+const SERVICE_NAME = "DevSearch"
 
 const routes = [
+  {
+    path: '/',
+    redirect: 'home',
+    meta: {
+      title: 'ホーム - ' + SERVICE_NAME
+    }
+  },
   {
     path: '/home',
     name: 'home',
     component: HomeView,
+    meta: {
+      title: 'ホーム - ' + SERVICE_NAME
+    }
   },
   {
     path: '/tag',
     name: 'tag',
     component: TagView,
-    // meta: { requiresAuth: true },
+    meta: {
+      title: 'タグ検索 - ' + SERVICE_NAME
+    }
 
   },
   {
     path: '/tag/:tagid/:tagname/',
     name: 'tagpost',
     component: TagpostView,
-    props: true
+    props: true,
+    meta: {
+      title: 'タグ詳細 - ' + SERVICE_NAME
+    }
   },
   {
     path: '/post',
     name: 'post',
-    component: PostView
+    component: PostView,
+    meta: {
+      title: 'ホーム - ' + SERVICE_NAME
+    }
   },
   {
     path: '/profile',
     name: 'profile',
     component: ProfileView,
+    meta: {
+      title: 'プロフィール - ' + SERVICE_NAME
+    },
     children: [
       {
         path: "like",
@@ -53,12 +74,18 @@ const routes = [
   {
     path: '/signup',
     name: 'signup',
-    component: SignupView
+    component: SignupView,
+    meta: {
+      title: '新規登録 - ' + SERVICE_NAME
+    }
   },
   {
     path: '/login',
     name: 'Article',
-    component: LoginView
+    component: LoginView,
+    meta: {
+      title: 'ログイン - ' + SERVICE_NAME
+    }
   }
 ]
 
@@ -71,11 +98,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
-    next('/login');
-  } else {
-    next();
-  }
-});
+  document.title = to.meta.title ? to.meta.title : "DevSearch"
+ 
+  next() 
+})
 
 export default router
