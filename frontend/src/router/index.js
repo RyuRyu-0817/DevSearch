@@ -50,7 +50,7 @@ const routes = [
     name: 'post',
     component: PostView,
     meta: {
-      title: 'ホーム - ' + SERVICE_NAME
+      title: '記事一覧 - ' + SERVICE_NAME
     }
   },
   {

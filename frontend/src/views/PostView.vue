@@ -3,7 +3,6 @@
         <HeaderComponent></HeaderComponent>
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-8 text-gray-900 text-center mt-14">記事検索</h1>
         <form @submit.prevent="postSearch(undefined, keywords)">
-            <!-- <SearchAtom v-model:keyword="keyword" @search="(word) => keyword = word"></SearchAtom> -->
             <SearchAtom v-model:keywords="keywords" :placeholder="placeholder" @search="(word) => keywords = word"></SearchAtom>
         </form>
         <div class="mx-auto max-w-screen-2xl px-4 lg:px-28 mt-14">
