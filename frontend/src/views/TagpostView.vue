@@ -61,7 +61,6 @@
             page: page,
             page_size: page_size,
         }
-        console.log(tagid.value)
         await axios.get(`${apiUrl}/api/tags/${tagid}/posts/`, {params: params.value})
         .then((response) => {
             if(currentPage.value === undefined) currentPage.value = 1

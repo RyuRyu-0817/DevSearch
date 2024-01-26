@@ -78,7 +78,7 @@
       page_size: page_size
     }
 
-    await axios.get("http://127.0.0.1:8000/api/posts/", {params: params.value})
+    await axios.get(`${apiUrl}/api/posts/`, {params: params.value})
     .then((response) => {
       if(currentPage.value === undefined) currentPage.value = 1
       likesort_posts.value = response.data.results

@@ -19,23 +19,24 @@
         <!-- buttons - start -->
         <div v-if="store.state.login_user">
             <div class="-ml-8 hidden flex-col gap-2.5 sm:flex-row sm:justify-center lg:flex lg:justify-start">
-                <router-link to="/profile"><img src="../assets/logo.png" alt="" class="rounded-full border border-indigo-500 w-12 h-12"></router-link>
+                <!-- <router-link to="/profile"><img src="../assets/logo.png" alt="" class="rounded-full border border-indigo-500 w-12 h-12"></router-link> -->
+                <router-link to="/profile">
+                    <!-- プロフィールアイコン(仮) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
+                </router-link>
             </div>
         </div>
         <div v-else>
             <div class="-ml-8 hidden flex-col gap-2.5 sm:flex-row sm:justify-center lg:flex lg:justify-start">
-                <router-link to="login" class="inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:text-indigo-500 focus-visible:ring active:text-indigo-600 md:text-base">ログイン</router-link>
+                <router-link to="/login" class="inline-block rounded-lg px-4 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:text-indigo-500 focus-visible:ring active:text-indigo-600 md:text-base">ログイン</router-link>
 
-                <router-link to="signup" class="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">新規登録</router-link>
+                <router-link to="/signup" class="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">新規登録</router-link>
             </div>
         </div>
 
-        <!-- <button type="button" @click="open=!open" class="inline-flex items-center gap-2 rounded-lg bg-gray-200 px-2.5 py-2 text-sm font-semibold text-gray-500 ring-indigo-300 hover:bg-gray-300 focus-visible:ring active:text-gray-700 md:text-base lg:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-            </svg>
-            Menu
-        </button>  -->
         <div @click="open = !open" :class="{'is-open': open}" class="cursor-pointer inline-block md:text-base lg:hidden">
             <span class="bar top-bar"></span>
             <span class="bar middle-bar"></span>
@@ -51,8 +52,8 @@
                     <router-link to="/profile" class="block text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 py-2">{{ store.state.login_user.username }}さんのマイページ</router-link>
                 </div>
                 <div v-else>
-                    <router-link to="login" class="block text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 py-2">ログイン</router-link>
-                    <router-link to="signup" class="block text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 py-2">新規登録</router-link>
+                    <router-link to="/login" class="block text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 py-2">ログイン</router-link>
+                    <router-link to="/signup" class="block text-lg font-semibold text-gray-600 transition duration-100 hover:text-indigo-500 py-2">新規登録</router-link>
                 </div>
             </div>
         </div>

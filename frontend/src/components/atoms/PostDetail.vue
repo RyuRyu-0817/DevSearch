@@ -53,7 +53,6 @@
 
 <script setup>
     import { ref, defineProps } from "vue"
-    // import axios from "axios";
     import ax from "../../main";
     import store from "../../store"
 
@@ -67,6 +66,9 @@
     const post = ref(props.post)
     const is_liked = ref(null)
     const is_bookmarked = ref(null)
+    const apiUrl = process.env.VUE_APP_API_DOMAIN;
+
+
     if (store.state.login_user){
         // 初回ロードでログインユーザが投稿にいいねorブックマークをしたか
         is_liked.value = post.value.who_like.some(user => { return user.id == store.state.login_user.pk })
@@ -74,7 +76,7 @@
     }
     
     const do_like = async () => {
-        await ax.post("http://127.0.0.1:8000/api/like/", { user: store.state.login_user, post: post.value })
+        await ax.post(`${apiUrl}/api/like/`, { user: store.state.login_user, post: post.value })
         .then((response) => {
             is_liked.value = response.data.is_liked
             post.value = response.data.post
@@ -85,7 +87,7 @@
     };
 
     const do_bookmark = async () => {
-        await ax.post("http://127.0.0.1:8000/api/bookmark/", { user: store.state.login_user, post: post.value })
+        await ax.post(`${apiUrl}/api/bookmark/`, { user: store.state.login_user, post: post.value })
         .then((response) => {
             is_bookmarked.value = response.data.is_bookmarked
             post.value = response.data.post
