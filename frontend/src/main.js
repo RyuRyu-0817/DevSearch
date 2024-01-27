@@ -7,11 +7,13 @@ import axios from 'axios';
 
 // 認証が必要なviewはaxでリクエスト
 const ax = axios.create()
+const apiUrl = process.env.VUE_APP_API_DOMAIN;
+
 export default ax
 
 async function verifyAccessToken(token){
     try {
-        await axios.post("http://127.0.0.1:8000/auth/token/verify/", { token: token });
+        await axios.post(`${apiUrl}/auth/token/verify/`, { token: token });
         return true; // トークンが有効な場合
     } catch (error) {
         return false; // トークンが無効な場合
@@ -19,7 +21,7 @@ async function verifyAccessToken(token){
 }
 async function TokenRefresh(refreshToken){
     try {
-        const response = await axios.post("http://127.0.0.1:8000/auth/token/refresh/", { refresh: refreshToken });
+        const response = await axios.post(`${apiUrl}/auth/token/refresh/`, { refresh: refreshToken });
         store.dispatch("setAccessToken", response.data.access);
         store.dispatch("setRefreshToken", response.data.refresh);
         return response.data.access; 
