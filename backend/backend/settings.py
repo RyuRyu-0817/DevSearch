@@ -126,7 +126,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [PROJECT_DIR / "templates"],
+        'DIRS': [BASE_DIR / "templates" ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -208,8 +208,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 """==============================================================
 ここから追加情報
 =============================================================="""
-SITE_ID = 1
-CUSTOM_VERIFY_EMAIL_LINK = 'http://localhost:8000/auth/verify-email/'
+SITE_ID = 2
+CUSTOM_VERIFY_EMAIL_LINK = 'http://127.0.0.1:8000/auth/verify-email/'
 
 
 #認証バックエンド-ログイン時に何でログインするかを配列の先頭から順に認証する
@@ -219,31 +219,31 @@ AUTHENTICATION_BACKENDS = (
     # 他のバックエンド
 )
 
+
+# =========== allauth ========================
+
 ACCOUNT_LOGOUT_ON_GET = True
 
-# # 登録時に確認メールがいるか
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # 登録時に確認メールがいるか
 
-# "ログイン時に"メールアドレスもしくはユーザ名で
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 180 # 確認メールは3分ごと
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3  # 3日以内にログインして
+
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True # getメソッドで確認
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email' # "ログイン時に"メールアドレスもしくはユーザ名で
+
+ACCOUNT_EMAIL_REQUIRED = True # "ユーザ登録時に"メールアドレスの提供を要求するか
 
 
-# "ユーザ登録時に"メールアドレスの提供を要求するか
-ACCOUNT_EMAIL_REQUIRED = True
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# meditor
-X_FRAME_OPTIONS = 'SAMEORIGIN'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587 #メールサーバーで指定されているポート
+EMAIL_USE_TLS = True # 送信中の文章を暗号化
 
 # ファイルアップロード用
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-
-MDEDITOR_CONFIGS = {
-    'default': {
-        'language': 'en',
-    }
-}

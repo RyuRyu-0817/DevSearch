@@ -1,0 +1,8 @@
+{% load account %}
+{% load i18n %}
+
+{{ user.username }}さん、 DevSearchへようこそ！
+
+登録を続けるには、以下のリンクをクリックしてください。
+
+{{ activate_url }}
