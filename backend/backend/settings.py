@@ -209,7 +209,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ここから追加情報
 =============================================================="""
 SITE_ID = 2
-CUSTOM_VERIFY_EMAIL_LINK = 'http://127.0.0.1:8000/auth/verify-email/'
+FRONTEND_ORIGIN = env("FRONTEND_ORIGIN")
+BACKEND_ORIGIN = env("BACKEND_ORIGIN")
+CUSTOM_VERIFY_EMAIL_LINK = f'{BACKEND_ORIGIN}/auth/verify-email/'
 
 
 #認証バックエンド-ログイン時に何でログインするかを配列の先頭から順に認証する
@@ -237,12 +239,15 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email' # "ログイン時に"メール
 ACCOUNT_EMAIL_REQUIRED = True # "ユーザ登録時に"メールアドレスの提供を要求するか
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = 587 #メールサーバーで指定されているポート
-EMAIL_USE_TLS = True # 送信中の文章を暗号化
+if DEBUG == False:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = env("EMAIL_HOST")
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+    EMAIL_PORT = 587 #メールサーバーで指定されているポート
+    EMAIL_USE_TLS = True # 送信中の文章を暗号化
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # ファイルアップロード用
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

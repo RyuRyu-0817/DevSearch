@@ -22,15 +22,11 @@
                         </svg> Githubでログイン </button>
                     </div> -->
                 </div>
-                <div class="mt-4 text-sm text-gray-600 text-center">
+                <!-- <div class="mt-4 text-sm text-gray-600 text-center">
                     <p>もしくは</p>
-                </div>
-                <div class="text-center text-red-500">
-                    <div v-for="(message_attr,) in messages" :key="message_attr">
-                        <p v-for="message in message_attr" :key="message">
-                            {{ message }}
-                        </p>
-                    </div>
+                </div> -->
+                <div class="text-center font-bold">
+                    <p>{{ messages }}</p>
                 </div>
                 <form @submit.prevent="signUp" class="space-y-4">
                     <!-- Your form elements go here -->
@@ -65,12 +61,10 @@
 
 <script setup>
     import { ref } from 'vue';
-    import { useRouter } from 'vue-router';
     import axios from 'axios';
 
 
-    const router = useRouter()
-    const messages = ref([])
+    const messages = ref("")
     const userData = ref({
         username: "",
         email: "",
@@ -84,10 +78,8 @@
     const signUp = async () => {
         await axios.post(`${apiUrl}/auth/signup/`, userData.value)
         .then((response) => {
-            messages.value = "確認メールを送ったで"
+            messages.value = "-登録されたメールアドレスに確認メールを送信しました-"
             console.log(response)
-            router.push('/login');
-
         })
         .catch((error) => {
             messages.value = error.response.data
