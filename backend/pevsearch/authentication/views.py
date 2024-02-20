@@ -13,14 +13,15 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 class CustomEmailConfirmView(APIView):
     permission_classes = [AllowAny, ]
     def get(self, request, key):
+        frontend_origin = settings.FRONTEND_ORIGIN
         verify_email_url = settings.CUSTOM_VERIFY_EMAIL_LINK
-
         response = requests.post(verify_email_url, {'key': key})
         if response.status_code == 200:
-            login_url = reverse('rest_login')  # ログイン画面のURLを取得
+            login_url = f"{frontend_origin}/login"  # Vue.jsのログインページのURL
+            print(login_url)
             return redirect(login_url)
         else:
-            signup_url = reverse("rest_register")
+            signup_url = f"{frontend_origin}/signup"  # Vue.jsのログインページのURL
             return redirect(signup_url)
 
 
