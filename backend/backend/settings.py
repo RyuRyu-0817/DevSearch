@@ -239,15 +239,12 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email' # "ログイン時に"メール
 ACCOUNT_EMAIL_REQUIRED = True # "ユーザ登録時に"メールアドレスの提供を要求するか
 
 
-if DEBUG == False:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = env("EMAIL_HOST")
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
-    EMAIL_PORT = 587 #メールサーバーで指定されているポート
-    EMAIL_USE_TLS = True # 送信中の文章を暗号化
-else:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587 #メールサーバーで指定されているポート
+EMAIL_USE_TLS = True # 送信中の文章を暗号化
 
 # ファイルアップロード用
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

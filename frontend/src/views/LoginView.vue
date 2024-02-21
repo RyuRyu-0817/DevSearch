@@ -24,7 +24,7 @@
                 <div class="mt-4 text-sm text-gray-600 text-center">
                     <p>もしくは</p>
                 </div>
-                <p class="text-center text-red-500">{{ errormessage }}</p>
+                <p class="text-center text-red-500">{{ error_message }}</p>
                 <form @submit.prevent="login" class="space-y-4">
                     <div>
                         <label for="username_email" class="block text-sm font-medium text-gray-700">ユーザ名orメールアドレス</label>
@@ -57,7 +57,7 @@
 
     const router = useRouter()
     const authfield = ref("")
-    const errormessage = ref("")
+    const error_message = ref("")
     const apiUrl = process.env.VUE_APP_API_DOMAIN;
 
 
@@ -90,9 +90,8 @@
             store.dispatch('setLoginUser', response.data.user)
             router.push('/home')
         })
-        .catch((error) => {
-            errormessage.value = "ユーザ名またはメールアドレス、パスワードが存在しません"
-            console.log(error)
+        .catch(() => {
+            error_message.value = "ユーザ名またはメールアドレス、パスワードが存在しません"
         })
     }
 

@@ -18,7 +18,6 @@ class CustomEmailConfirmView(APIView):
         response = requests.post(verify_email_url, {'key': key})
         if response.status_code == 200:
             login_url = f"{frontend_origin}/login"  # Vue.jsのログインページのURL
-            print(login_url)
             return redirect(login_url)
         else:
             signup_url = f"{frontend_origin}/signup"  # Vue.jsのログインページのURL

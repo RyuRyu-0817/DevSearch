@@ -15,6 +15,7 @@ from rest_framework_simplejwt.views import (
 
 from .views import CustomEmailConfirmView, GoogleLogin
 from allauth.socialaccount.providers.oauth2.views import (OAuth2LoginView, OAuth2CallbackView)
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
@@ -24,8 +25,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='rest_login'),
     path('logout/', LogoutView.as_view(), name='rest_logout'),
     path('user/', UserDetailsView.as_view(), name='rest_user_details'),
-    path('account-confirm-email/<str:key>', CustomEmailConfirmView.as_view(),name='account_confirm_email',),
-    path("account-confirm-email/", VerifyEmailView.as_view(), name="account_email_verification_sent"),
+    re_path(r'account-confirm-email/(?P<key>[-:\w]+)/$', CustomEmailConfirmView.as_view(),name='account_confirm_email',),
+    path("account_email_verification_sent", TemplateView.as_view(), name="account_email_verification_sent"),
     path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset'),
     path('password/reset/confirm/',  PasswordResetConfirmView.as_view(), name='rest_password_reset_confirm'),
     path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
