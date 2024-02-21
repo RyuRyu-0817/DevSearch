@@ -25,26 +25,45 @@
                 <!-- <div class="mt-4 text-sm text-gray-600 text-center">
                     <p>もしくは</p>
                 </div> -->
-                <div class="text-center font-bold">
-                    <p>{{ messages }}</p>
+                <div v-if="mail_message" class="text-center mb-3">
+                    <p class="mb-2" v-html="mail_message"></p>
+                    <form @submit.prevent="resendMail">
+                        <input type="text" id="resendemail" :value="userData.email" required name="resendemail" class="mb-1 p-2 border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300" placeholder="再度受け取るメールアドレス">
+                        <button type="submit" class="bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">再度受け取る</button>
+                    </form>
+                    <p class="text-xs">※迷惑メールフォルダも確認した上でご利用ください</p>
                 </div>
+ 
                 <form @submit.prevent="signUp" class="space-y-4">
                     <!-- Your form elements go here -->
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700">ユーザ名</label>
                         <input type="text" id="username" v-model="userData.username" required name="username" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300">
+                        <div v-if="error_messages.username">
+                            <p v-for="error_message in error_messages.username" :key="error_message" class="text-red-500">{{ error_message }}</p>
+                        </div>
                     </div>
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">メールアドレス</label>
                         <input type="text" id="email" v-model="userData.email" required name="email" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300">
+                        <div v-if="error_messages.email">
+                            <p v-for="error_message in error_messages.email" :key="error_message" class="text-red-500">{{ error_message }}</p>
+                        </div>
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">パスワード</label>
                         <input type="password" id="password1" v-model="userData.password1" required name="password" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300">
+                        <div v-if="error_messages.password1">
+                            <p v-for="error_message in error_messages.password1" :key="error_message" class="text-red-500">{{ error_message }}</p>
+                        </div>
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">パスワード(再)</label>
                         <input type="password" id="password2" v-model="userData.password2" required name="password" class="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300">
+                        <div v-if="error_messages.password2">
+                            <p v-for="error_message in error_messages.password2" :key="error_message" class="text-red-500">{{ error_message }}</p>
+                            
+                        </div>
                     </div>
                     <div>
                         <button type="submit" class="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">新規登録</button>
@@ -64,7 +83,7 @@
     import axios from 'axios';
 
 
-    const messages = ref("")
+    const error_messages = ref({})
     const userData = ref({
         username: "",
         email: "",
@@ -72,18 +91,27 @@
         password2: "",
 
     })
+    const mail_message = ref("")
     const apiUrl = process.env.VUE_APP_API_DOMAIN;
 
 
     const signUp = async () => {
         await axios.post(`${apiUrl}/auth/signup/`, userData.value)
-        .then((response) => {
-            messages.value = "-登録されたメールアドレスに確認メールを送信しました-"
-            console.log(response)
+        .then(() => {
+            mail_message.value = "-登録されたメールアドレスに確認メールを送信しました-<br>(再度受け取る場合は3分空けてご利用ください)"
         })
         .catch((error) => {
-            messages.value = error.response.data
-            console.log(error)
+            error_messages.value = error.response.data
         })
     };
+
+    const resendMail = async () => {
+        await axios.post(`${apiUrl}/auth/resend-email/`, {email: userData.value.email})
+        .then(() => {
+            mail_message.value = "-メールアドレスに再度確認メールを送信しました-"
+        })
+        .catch(() => {
+            mail_message.value = "-再送信に失敗しました-"
+        })
+    }
 </script>
