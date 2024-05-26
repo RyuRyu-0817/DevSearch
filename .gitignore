@@ -154,3 +154,4 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+dbClear_test.py
