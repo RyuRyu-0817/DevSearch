@@ -172,10 +172,10 @@ class LongURLField(models.URLField):
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=255, unique=True)
+    title = models.CharField(max_length=255)
     createdAt = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag)
-    url = models.URLField()
+    url = models.URLField(unique=True)
     image = LongURLField(max_length=1000, blank=True)
     site_Like = models.PositiveIntegerField(default=0)
 
